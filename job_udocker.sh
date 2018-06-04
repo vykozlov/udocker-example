@@ -11,8 +11,10 @@
 ################
 
 ####### MAIN CONFIG #######
-USERScript="testscript-tf.py"                             # user program to run
-UCONTAINER="tf160-gpu"                                    # container to use
+USERScript="testscript-mx.py"                             # user program to run
+UCONTAINER="mxpy120_gpu_cuda9"                            # container to use
+#USERScript="testscript-tf.py"                            # user program to run
+#UCONTAINER="tf160-gpu"                                   # container to use
 #--------------------------
 UDOCKER_DIR="$PROJECT/.udocker"                           # udocker main directory.
 UDOCKERSETUP="--execmode=F3 --nvidia"                     # udocker setup settings.
