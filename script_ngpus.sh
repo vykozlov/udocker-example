@@ -6,6 +6,7 @@ if [ $# -ge 0 ]; then
     for i in "${arr[@]}"; do
         [[ $i = *"--num_gpus"* ]]  && NumGPUs=${i#*=}
         [[ $i = *"--exec"* ]]      && ExecScript=${i#*=}
+    done
 fi
 
 for (( i=0; i<$NumGPUs; i++ ));
