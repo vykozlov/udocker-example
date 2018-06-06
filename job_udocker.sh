@@ -11,6 +11,7 @@
 ################
 
 ####### MAIN CONFIG #######
+NUMGPUS=4                                                 # ForHLR2 have 4 GTX980 on one node!
 USERScript="testscript-mx.py"                             # user program to run
 UCONTAINER="mxpy120_gpu_cuda9"                            # container to use
 #USERScript="testscript-tf.py"                            # user program to run
@@ -22,7 +23,7 @@ HOSTDIR=$PROJECT                                          # directory at your ho
 USERScriptDirHost=$HOSTDIR/workspace/udocker-example      # location of the user program (host)
 DIRINCONTAINER="/home"                                    # mount point inside container
 SCRIPTDIR=${USERScriptDirHost//$HOSTDIR/$DIRINCONTAINER}  # replace host path with one in container
-SCRIPT="$SCRIPTDIR/$USERScript"                           # user program to run
+SCRIPT="$SCRIPTDIR/script_ngpus.sh --num_gpus=$NUMGPUS --exec=$SCRIPTDIR/$USERScript"     # user program to run
 ##########################
 
 echo "=> Doing the setup"
