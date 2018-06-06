@@ -23,7 +23,6 @@ HOSTDIR=$PROJECT                                          # directory at your ho
 USERScriptDirHost=$HOSTDIR/workspace/udocker-example      # location of the user program (host)
 DIRINCONTAINER="/home"                                    # mount point inside container
 SCRIPTDIR=${USERScriptDirHost//$HOSTDIR/$DIRINCONTAINER}  # replace host path with one in container
-#SCRIPT="$SCRIPTDIR/script_ngpus.sh --num_gpus=$NUMGPUS --exec=$SCRIPTDIR/$USERScript"     # user program to run
 SCRIPT="$SCRIPTDIR/$USERScript"                           # user program to run
 ##########################
 
