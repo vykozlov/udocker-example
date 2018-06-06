@@ -1,6 +1,6 @@
 #!/bin/bash
 JOB2RUN=./job_udocker.sh
-NJOB=3
+NJOB=1
 for j in $(seq 1 $NJOB)
 do 
     echo "Submitting job $j out of $NJOB.."
