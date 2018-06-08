@@ -11,7 +11,7 @@
 ################
 
 ####### MAIN CONFIG #######
-NUMGPUS=4                                                 # ForHLR2 have 4 GTX980 on one node!
+NUMGPUS=1                                                 # ForHLR2 has 4 GTX980 on one node => use NUMGPUS=4
 USERScript="testscript-mx.py"                             # user program to run
 UCONTAINER="mxpy120_gpu_cuda9"                            # container to use
 #USERScript="testscript-tf.py"                             # user program to run
@@ -35,8 +35,12 @@ echo "=> Running on $(hostname) ..."
 echo "==================================="
 
 # For udocker debugging specify "udocker -D run " + the rest
-for (( i=0; i<$NUMGPUS; i++ ));
-do 
-    udocker run --volume=$HOSTDIR:$DIRINCONTAINER --env="CUDA_VISIBLE_DEVICES=$i" --workdir=$DIRINCONTAINER ${UCONTAINER} $SCRIPT &
-done
-wait  ### IMPORTANT !!!
+if [ $NUMGPUS -ge 2 ]; then
+    for (( i=0; i<$NUMGPUS; i++ ));
+    do 
+        udocker run --volume=$HOSTDIR:$DIRINCONTAINER --env="CUDA_VISIBLE_DEVICES=$i" --workdir=$DIRINCONTAINER ${UCONTAINER} $SCRIPT &
+    done
+    wait  ### IMPORTANT !!!
+else
+    udocker run --volume=$HOSTDIR:$DIRINCONTAINER --workdir=$DIRINCONTAINER ${UCONTAINER} $SCRIPT
+fi
