@@ -26,6 +26,10 @@ USAGEMESSAGE="Either run as \n
 
 if [ $# -eq 0 ]; then
     DOCKERIMG=$DEFAULTIMG
+elif [ $1 == "-h" ] || [ $1 == "--help" ]; then
+    shopt -s xpg_echo
+    echo $USAGEMESSAGE
+    exit 1    
 elif [ $# -eq 2 ]; then
     DOCKERIMG=$1
     UCONTAINER=$2
