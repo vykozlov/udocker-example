@@ -12,21 +12,26 @@
 
 ####### MAIN CONFIG #######
 NUMGPUS=1                                                 # ForHLR2 has 4 GTX980 on one node => use NUMGPUS=4
-USERScript="testscript-mx.py"                             # user program to run
-UCONTAINER="mxpy120_gpu_cuda9"                            # container to use
+USERScript="testscript-mx.py"                            # user program to run
+UCONTAINER="mxnet_130_gpu_cu90"                           # container to use
 #USERScript="testscript-tf.py"                             # user program to run
-#UCONTAINER="tf160-gpu"                                    # container to use
+#UCONTAINER="tf-mnist-cd"                         # container to use
+#USERScript="download_check.py"                             # user program to run
+#UCONTAINER="rpkitdev-gpu"
+#UCONTAINER="vykozlov/deep-oc-retinopathy_kit_dev:gpu"       # container to use
 #--------------------------
 UDOCKER_DIR="$PROJECT/.udocker"                           # udocker main directory.
-UDOCKERSETUP="--execmode=F3 --nvidia"                     # udocker setup settings.
+#UDOCKERSETUP="--execmode=F3 --nvidia"                     # udocker setup settings.
+#UDOCKERSETUP="--execmode=P1"
+UDOCKERSETUP="--nvidia"
 HOSTDIR=$PROJECT                                          # directory at your host to mount inside the container.
 USERScriptDirHost=$HOSTDIR/workspace/udocker-example      # location of the user program (host)
 DIRINCONTAINER="/home"                                    # mount point inside container
 SCRIPTDIR=${USERScriptDirHost//$HOSTDIR/$DIRINCONTAINER}  # replace host path with one in container
-SCRIPT="$SCRIPTDIR/$USERScript"                           # user program to run
+SCRIPT="$USERScript"                           # user program to run
 ##########################
 
-echo "=> Doing the setup"
+echo "=> Doing the setup, $UDOCKERSETUP"
 udocker setup $UDOCKERSETUP ${UCONTAINER}
 
 echo "==================================="
@@ -42,5 +47,5 @@ if [ $NUMGPUS -ge 2 ]; then
     done
     wait  ### IMPORTANT !!!
 else
-    udocker run --volume=$HOSTDIR:$DIRINCONTAINER --workdir=$DIRINCONTAINER ${UCONTAINER} $SCRIPT
+    udocker run --volume=$USERScriptDirHost:$DIRINCONTAINER --workdir=$DIRINCONTAINER ${UCONTAINER} python /home/$SCRIPT
 fi
